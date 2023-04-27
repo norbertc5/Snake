@@ -39,14 +39,13 @@
             this.Border2 = new System.Windows.Forms.PictureBox();
             this.Border3 = new System.Windows.Forms.PictureBox();
             this.Border4 = new System.Windows.Forms.PictureBox();
-            this.Trigger = new System.Windows.Forms.PictureBox();
+            this.GameOverLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.SnakeHead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Apple)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Border1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Border2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Border3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Border4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Trigger)).BeginInit();
             this.SuspendLayout();
             // 
             // SnakeHead
@@ -115,15 +114,18 @@
             this.Border4.TabStop = false;
             this.Border4.Tag = "GameOverWhenTouch";
             // 
-            // Trigger
+            // GameOverLabel
             // 
-            this.Trigger.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.Trigger.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.Trigger.Location = new System.Drawing.Point(115, 131);
-            this.Trigger.Name = "Trigger";
-            this.Trigger.Size = new System.Drawing.Size(20, 20);
-            this.Trigger.TabIndex = 6;
-            this.Trigger.TabStop = false;
+            this.GameOverLabel.AutoSize = true;
+            this.GameOverLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.GameOverLabel.Font = new System.Drawing.Font("Consolas", 72F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.GameOverLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.GameOverLabel.Location = new System.Drawing.Point(46, 234);
+            this.GameOverLabel.Name = "GameOverLabel";
+            this.GameOverLabel.Size = new System.Drawing.Size(683, 112);
+            this.GameOverLabel.TabIndex = 7;
+            this.GameOverLabel.Text = "  Game Over ";
+            this.GameOverLabel.Visible = false;
             // 
             // Screen
             // 
@@ -131,7 +133,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGreen;
             this.ClientSize = new System.Drawing.Size(781, 561);
-            this.Controls.Add(this.Trigger);
+            this.Controls.Add(this.GameOverLabel);
             this.Controls.Add(this.Border4);
             this.Controls.Add(this.Border3);
             this.Controls.Add(this.Border2);
@@ -147,8 +149,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.Border2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Border3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Border4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Trigger)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 
@@ -156,6 +158,6 @@
         private System.Windows.Forms.PictureBox Border2;
         private System.Windows.Forms.PictureBox Border3;
         private System.Windows.Forms.PictureBox Border4;
-        private System.Windows.Forms.PictureBox Trigger;
+        private System.Windows.Forms.Label GameOverLabel;
     }
 }
