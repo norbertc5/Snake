@@ -40,6 +40,8 @@
             this.Border3 = new System.Windows.Forms.PictureBox();
             this.Border4 = new System.Windows.Forms.PictureBox();
             this.GameOverLabel = new System.Windows.Forms.Label();
+            this.gameOverLabel2 = new System.Windows.Forms.Label();
+            this.ScoreLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.SnakeHead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Apple)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Border1)).BeginInit();
@@ -118,14 +120,37 @@
             // 
             this.GameOverLabel.AutoSize = true;
             this.GameOverLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.GameOverLabel.Font = new System.Drawing.Font("Consolas", 72F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.GameOverLabel.Font = new System.Drawing.Font("Consolas", 72.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.GameOverLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.GameOverLabel.Location = new System.Drawing.Point(46, 234);
+            this.GameOverLabel.Location = new System.Drawing.Point(46, 236);
             this.GameOverLabel.Name = "GameOverLabel";
-            this.GameOverLabel.Size = new System.Drawing.Size(683, 112);
+            this.GameOverLabel.Size = new System.Drawing.Size(684, 113);
             this.GameOverLabel.TabIndex = 7;
+            this.GameOverLabel.Tag = "GameOverPiece";
             this.GameOverLabel.Text = "  Game Over ";
             this.GameOverLabel.Visible = false;
+            // 
+            // gameOverLabel2
+            // 
+            this.gameOverLabel2.AutoSize = true;
+            this.gameOverLabel2.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.gameOverLabel2.Location = new System.Drawing.Point(259, 349);
+            this.gameOverLabel2.Name = "gameOverLabel2";
+            this.gameOverLabel2.Size = new System.Drawing.Size(261, 19);
+            this.gameOverLabel2.TabIndex = 8;
+            this.gameOverLabel2.Tag = "GameOverPiece";
+            this.gameOverLabel2.Text = "Press any key to play again.";
+            this.gameOverLabel2.Visible = false;
+            // 
+            // ScoreLabel
+            // 
+            this.ScoreLabel.AutoSize = true;
+            this.ScoreLabel.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.ScoreLabel.Location = new System.Drawing.Point(17, 9);
+            this.ScoreLabel.Name = "ScoreLabel";
+            this.ScoreLabel.Size = new System.Drawing.Size(94, 24);
+            this.ScoreLabel.TabIndex = 9;
+            this.ScoreLabel.Text = "Score: ";
             // 
             // Screen
             // 
@@ -133,6 +158,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGreen;
             this.ClientSize = new System.Drawing.Size(781, 561);
+            this.Controls.Add(this.ScoreLabel);
+            this.Controls.Add(this.gameOverLabel2);
             this.Controls.Add(this.GameOverLabel);
             this.Controls.Add(this.Border4);
             this.Controls.Add(this.Border3);
@@ -142,7 +169,7 @@
             this.Controls.Add(this.SnakeHead);
             this.Name = "Screen";
             this.Text = "snake";
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainFormKeyDown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ScreenKeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.SnakeHead)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Apple)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Border1)).EndInit();
@@ -159,5 +186,7 @@
         private System.Windows.Forms.PictureBox Border3;
         private System.Windows.Forms.PictureBox Border4;
         private System.Windows.Forms.Label GameOverLabel;
+        private System.Windows.Forms.Label gameOverLabel2;
+        private System.Windows.Forms.Label ScoreLabel;
     }
 }

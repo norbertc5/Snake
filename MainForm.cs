@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Threading.Tasks;
-
-using System.Threading;
 
 namespace snake
 {
@@ -24,6 +21,10 @@ namespace snake
         bool canSnakeMove = true;
         PictureBox lastBodyPart;
         int gameOverTicks;  // using to game over anim
+        int totalGameOverTicks;  // using to make delay between game over and restert
+        bool isGameOver;
+        Point startPlayerPos = new Point(100, 100);
+        int score;
 
         public Screen()
         {
@@ -32,12 +33,13 @@ namespace snake
             CreateBackgroundPasks(WidthOrHeight.Height);
 
             // set start locations
-            SnakeHead.Location = new Point(100, 100);
+            SnakeHead.Location = startPlayerPos;
             Apple.Location = new Point(240, 100);
 
             random = new Random();
             snakeBodyParts.Add(SnakeHead);
             this.Controls.SetChildIndex(SnakeHead, 0);
+            ScoreLabel.Text = "Score: " + score.ToString();
 
             // set start snake lenght
             CreateBody();
@@ -90,54 +92,43 @@ namespace snake
 
             if (SnakeHead.Bounds.IntersectsWith(Apple.Bounds))
             {
-                MoveApple();
-            }
-
-            foreach (Control obj in this.Controls)
-            {
-                if (obj is PictureBox && (string)obj.Tag == "GameOverWhenTouch")
-                {
-                    if (Apple.Bounds.IntersectsWith(obj.Bounds))
-                    {
-                        MoveApple();
-                    }
-                }
+                MoveApple(true);
             }
 
             #endregion
 
             #region Game over
 
+            // detect if player is dead
             foreach (Control obj in this.Controls)
             {
                 if (obj is PictureBox && (string)obj.Tag == "GameOverWhenTouch")
                 {
                     if (SnakeHead.Bounds.IntersectsWith(obj.Bounds) && obj != lastBodyPart)
                     {
-                        Console.WriteLine(obj.Name);
                         this.Controls.SetChildIndex(GameOverLabel, 0);
+                        isGameOver = true;
                         canSnakeMove = false;
                     }
                 }
             }
 
             // game over anim
-            if (!canSnakeMove)
+            if (isGameOver)
             {
                 gameOverTicks++;
-                Console.WriteLine(gameOverTicks);
+                totalGameOverTicks++;
                 if (gameOverTicks >= 10)
                 {
-                   // GameOverBackground.Visible = !GameOverBackground.Visible;
-                    GameOverLabel.Visible = !GameOverLabel.Visible;
-                    gameOverTicks = 0;
+                    // find all objects which create game over screen
+                    ChangeGameOverScreenVisible();
                 }
             }
 
             #endregion
         }
 
-        void MainFormKeyDown(object sender, KeyEventArgs e)
+        void ScreenKeyDown(object sender, KeyEventArgs e)
         {
             // read input from keyboard
             if ((e.KeyCode == Keys.A || e.KeyCode == Keys.Left) && actualDirection != Directions.Right)
@@ -155,6 +146,30 @@ namespace snake
             else if ((e.KeyCode == Keys.S || e.KeyCode == Keys.Down) && actualDirection != Directions.Up)
             {
                 actualDirection = Directions.Down;
+            }
+
+            // when game over, player have to click any key to restart
+            if(isGameOver && totalGameOverTicks >= 15)
+            {
+                SnakeHead.Location = startPlayerPos;
+                actualDirection = Directions.Right;
+
+                foreach(PictureBox picBox in snakeBodyParts)
+                {
+                    if(picBox.Name != "SnakeHead")
+                        picBox.Dispose();
+                }
+
+                if(GameOverLabel.Visible)
+                    ChangeGameOverScreenVisible();
+
+                snakeBodyParts.Clear();
+                snakeBodyParts.Add(SnakeHead);
+                CreateBody();
+                CreateBody();
+                canSnakeMove = true;
+                isGameOver = false;
+                totalGameOverTicks = 0;
             }
         }
 
@@ -210,19 +225,48 @@ namespace snake
             }
         }
 
-        void MoveApple()
+        void MoveApple(bool addScoreAndBody)
         {
-            // draw lots number so that apple set in playing area
-            int x = random.Next(60, Size.Width - 60);
-            int y = random.Next(80, Size.Height - 100);
-            Console.WriteLine("X: " + x + " Y: " + y);
+            if(addScoreAndBody)
+            {
+                // draw lots number so that apple set in playing area
+                int x = random.Next(60, Size.Width - 60);
+                int y = random.Next(80, Size.Height - 100);
 
-            // round number and snap apple to grid
-            x = (int)Math.Round(Convert.ToDecimal((x + 0.0000001) / 20.00)) * 20;
-            y = (int)Math.Round(Convert.ToDecimal((y + 0.0000001) / 20.00)) * 20;
+                // round number and snap apple to grid
+                x = (int)Math.Round(Convert.ToDecimal((x + 0.0000001) / 20.00)) * 20;
+                y = (int)Math.Round(Convert.ToDecimal((y + 0.0000001) / 20.00)) * 20;
 
-            Apple.Location = new Point(x, y);
-            CreateBody();
+                Apple.Location = new Point(x, y);
+                CreateBody();
+                score++;
+                ScoreLabel.Text = "Score: " + score.ToString();
+            }
+
+            // make apple can't move to snaek tail
+            foreach (Control obj in this.Controls)
+            {
+                if (obj is PictureBox && (string)obj.Tag == "GameOverWhenTouch")
+                {
+                    if (Apple.Bounds.IntersectsWith(obj.Bounds))
+                    {
+                        MoveApple(false);
+                    }
+                }
+            }
+        }
+
+        void ChangeGameOverScreenVisible()
+        {
+            foreach (Control obj in this.Controls)
+            {
+                // change objects visibility
+                if ((string)obj.Tag == "GameOverPiece")
+                {
+                    obj.Visible = !obj.Visible;
+                    gameOverTicks = 0;
+                }
+            }
         }
     }
 }
